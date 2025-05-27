@@ -17,11 +17,17 @@ export default function MemoriesPage() {
 			.then(res => res.json())
 			.then(data => {
 				setMemories(data);
-				setLoading(false);
+				setTimeout(() => {
+					setLoading(false);
+				}, 3000)
 			});
 	}, []);
 
-	if (loading) return <div>Loading...</div>;
+	if (loading) return (
+		<div className="w-[100dvw] h-[100dvh] flex flex-col items-center justify-center">
+			<h3>Samo želim da ti pokažem...</h3>
+		</div>
+	);
 
 	return <MemoryGallery memories={memories}/>;
 }

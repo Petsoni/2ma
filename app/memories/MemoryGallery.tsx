@@ -1,7 +1,8 @@
 'use client';
 
-import {useEffect, useRef} from "react";
+import {Fragment, useEffect, useRef, useState} from "react";
 import {motion, useAnimation, useInView} from "framer-motion";
+import {Button} from "@/components/ui/button";
 
 interface Memory {
 	id: number;
@@ -10,7 +11,7 @@ interface Memory {
 }
 
 export default function MemoryGallery({memories}: { memories: Memory[] }) {
-	// Group memories by date
+
 	const groupedMemories = memories.reduce((acc, memory) => {
 		const date = memory.date;
 		if (!acc[date]) {
@@ -20,14 +21,47 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 		return acc;
 	}, {} as Record<string, Memory[]>);
 
-	// Convert to sorted array
 	const memoriesSorted = Object.entries(groupedMemories)
 		.map(([date, memories]) => ({date, memories}))
-		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+		.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
+	console.log(memoriesSorted)
 	const galleryRef = useRef<HTMLDivElement>(null)
 	const isInView = useInView(galleryRef, {once: false, margin: "0px 0px -100px 0px"})
 	const controls = useAnimation()
+
+	const [isUploading, setIsUploading] = useState(false);
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const handleButtonClick = () => {
+		fileInputRef.current?.click();
+	};
+
+	const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+
+		setIsUploading(true);
+
+		try {
+			const formData = new FormData();
+			formData.append('file', file);
+			formData.append('date', new Date().toISOString().split('T')[0]);
+
+			const response = await fetch('/api/upload', {
+				method: 'POST',
+				body: formData,
+			});
+
+			if (!response.ok) throw new Error('Upload failed');
+			window.location.reload();
+		} catch (error) {
+			console.error('Upload error:', error);
+		} finally {
+			setIsUploading(false);
+			if (fileInputRef.current) fileInputRef.current.value = '';
+		}
+	};
 
 	useEffect(() => {
 		if (isInView) {
@@ -37,7 +71,6 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 		}
 	}, [isInView, controls])
 
-	// Animation variants
 	const containerVariants = {
 		hidden: {opacity: 0},
 		visible: {
@@ -61,68 +94,78 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 		}
 	}
 
-	const itemVariants = {
-		hidden: {opacity: 0, scale: 0.9},
-		visible: {
-			opacity: 1,
-			scale: 1,
-			transition: {
-				duration: 0.5,
-				ease: "backOut"
-			}
-		}
-	}
-
 	return (
 		<div className="p-4 pb-16 flex flex-col items-center">
-			<motion.h1
-				className="text-2xl font-bold mb-6 text-center"
+			<motion.h3
+				className="mb-6 text-center"
 				initial={{opacity: 0, y: -20}}
 				animate={{opacity: 1, y: 0}}
 				transition={{duration: 0.5}}
 			>
-				Najlepše uspomene s tobom u poslednjih 2 meseca ❤️
-			</motion.h1>
+				Najlepše uspomene s tobom u poslednjih
+				<br/>
+				2 meseca ❤️
+			</motion.h3>
+
 
 			<motion.div
 				ref={galleryRef}
-				className="grid gap-16 w-full"
+				className="grid gap-12 w-full"
 				initial="hidden"
 				animate={controls}
 				variants={containerVariants}
 			>
 				{memoriesSorted.map((group) => (
-					<motion.div
-						key={group.date}
-						className="border p-8 rounded-4xl bg-white shadow-sm w-full"
-						variants={groupVariants}
-					>
-						<motion.h2
-							className="text-xl font-semibold mb-4 text-gray-800"
-							initial={{opacity: 0}}
-							animate={{opacity: 1}}
-							transition={{delay: 0.3}}
+					<Fragment key={group.date}>
+						<motion.div
+							key={group.date}
+							className="p-8 rounded-xl bg-white w-full"
+							variants={groupVariants}
 						>
-							{group.date}
-						</motion.h2>
+							<motion.h4
+								className="font-semibold mb-4 text-gray-800 text-center"
+								initial={{opacity: 0}}
+								animate={{opacity: 1}}
+								transition={{delay: 0.3}}
+							>
+								{group.date}
+							</motion.h4>
 
-						<div className="grid w-full grid grid-cols-[repeat(auto-fit,minmax(25rem,1fr))] gap-4">
-							{group.memories.map((memory) => (
-								<motion.img
-									key={memory.id}
-									src={memory.path}
-									alt="Memory image"
-									className="w-full h-full object-cover rounded-3xl"
-									loading="lazy"
-									initial={{opacity: 0}}
-									animate={{opacity: 1}}
-									transition={{duration: 0.5}}
-								/>
-							))}
-						</div>
-					</motion.div>
+							<div className="grid w-full grid grid-cols-[repeat(auto-fit,minmax(100%, 1fr))] gap-4">
+								{group.memories.map((memory) => (
+									<motion.img
+										key={memory.id}
+										src={memory.path}
+										alt="Memory image"
+										className="w-full h-full object-cover rounded-lg"
+										loading="lazy"
+										initial={{opacity: 0}}
+										animate={{opacity: 1}}
+										transition={{duration: 0.5}}
+									/>
+								))}
+							</div>
+						</motion.div>
+						<hr className={"border"}/>
+					</Fragment>
 				))}
 			</motion.div>
+			<input
+				type="file"
+				ref={fileInputRef}
+				onChange={handleUpload}
+				accept="image/*"
+				className="hidden"
+			/>
+
+			{/* Upload button */}
+			<Button
+				className="w-full mt-4"
+				onClick={handleButtonClick}
+				disabled={isUploading}
+			>
+				{isUploading ? 'Uploading...' : 'Dodaj sliku koju želiš'}
+			</Button>
 		</div>
 	)
 }
