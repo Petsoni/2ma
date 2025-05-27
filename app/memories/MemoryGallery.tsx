@@ -158,14 +158,15 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 				className="hidden"
 			/>
 
-			{/* Upload button */}
-			<Button
-				className="w-full mt-4"
-				onClick={handleButtonClick}
-				disabled={isUploading}
-			>
-				{isUploading ? 'Uploading...' : 'Dodaj sliku koju želiš'}
-			</Button>
+			{/*/!* Upload button *!/*/}
+			{/*<Button*/}
+			{/*	variant={'outline'}*/}
+			{/*	className="w-full mt-4"*/}
+			{/*	onClick={handleButtonClick}*/}
+			{/*	disabled={isUploading}*/}
+			{/*>*/}
+			{/*	{isUploading ? 'Uploading...' : 'Dodaj sliku koju želiš'}*/}
+			{/*</Button>*/}
 		</div>
 	)
 }
