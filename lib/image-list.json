@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "path": "/images/prvi-mek-30-apr.jpg",
+    "date": "30.03.2025."
+  },
+  {
+    "id": 2,
+    "path": "/images/kafeterija.jpg",
+    "date": "10.04.2025."
+  },
+  {
+    "id": 3,
+    "path": "/images/closeup.jpg",
+    "date": "13.04.2025."
+  },
+  {
+    "id": 4,
+    "path": "/images/tasa-maca.jpg",
+    "date": "13.04.2025."
+  },
+  {
+    "id": 5,
+    "path": "/images/setnja-kafa.jpg",
+    "date": "18.04.2025."
+  },
+  {
+    "id": 6,
+    "path": "/images/ananas.jpg",
+    "date": "27.04.2025."
+  },
+  {
+    "id": 7,
+    "path": "/images/italija-closeup.jpg",
+    "date": "30.04.2025."
+  },
+  {
+    "id": 8,
+    "path": "/images/italija-sunce.jpg",
+    "date": "30.04.2025."
+  },
+  {
+    "id": 9,
+    "path": "/images/italija-setnja.jpg",
+    "date": "30.04.2025."
+  },
+  {
+    "id": 10,
+    "path": "/images/italija-kiss.jpg",
+    "date": "30.04.2025."
+  },
+  {
+    "id": 11,
+    "path": "/images/italija-film.jpg",
+    "date": "30.04.2025."
+  },
+  {
+    "id": 12,
+    "path": "/images/italija-ruza.jpg",
+    "date": "30.04.2025."
+  },
+  {
+    "id": 13,
+    "path": "/images/zeleznicka-kiss.jpg",
+    "date": "01.05.2025."
+  },
+  {
+    "id": 14,
+    "path": "/images/milano-mall.jpg",
+    "date": "01.05.2025."
+  },
+  {
+    "id": 15,
+    "path": "/images/voz-chill.jpg",
+    "date": "01.05.2025."
+  },
+  {
+    "id": 16,
+    "path": "/images/lugano-bk.jpg",
+    "date": "02.05.2025."
+  },
+  {
+    "id": 17,
+    "path": "/images/aerodrom-1.jpg",
+    "date": "04.05.2025."
+  },
+  {
+    "id": 18,
+    "path": "/images/aerodrom-2.jpg",
+    "date": "04.05.2025."
+  }
+]
