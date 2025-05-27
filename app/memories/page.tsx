@@ -24,8 +24,8 @@ export default function MemoriesPage() {
 	}, []);
 
 	if (loading) return (
-		<div className="w-[100dvw] h-[100dvh] flex flex-col items-center justify-center">
-			<h3>Samo želim da ti pokažem...</h3>
+		<div className="w-[100%] h-[100dvh] flex flex-col items-center justify-center">
+			<h3 className={"w-full text-center"}>Samo želim da ti pokažem...</h3>
 		</div>
 	);
 

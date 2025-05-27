@@ -2,7 +2,7 @@
 
 import {Fragment, useEffect, useRef, useState} from "react";
 import {motion, useAnimation, useInView} from "framer-motion";
-import {Button} from "@/components/ui/button";
+import "./MemoryGallery.style.css"
 
 interface Memory {
 	id: number;
@@ -25,7 +25,6 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 		.map(([date, memories]) => ({date, memories}))
 		.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-	console.log(memoriesSorted)
 	const galleryRef = useRef<HTMLDivElement>(null)
 	const isInView = useInView(galleryRef, {once: false, margin: "0px 0px -100px 0px"})
 	const controls = useAnimation()
@@ -75,6 +74,7 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 		hidden: {opacity: 0},
 		visible: {
 			opacity: 1,
+			background: "transparent",
 			transition: {
 				staggerChildren: 0.15,
 				when: "beforeChildren"
@@ -104,7 +104,7 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 			>
 				Najlepše uspomene s tobom u poslednjih
 				<br/>
-				2 meseca ❤️
+				✨ 2 meseca ✨
 			</motion.h3>
 
 
@@ -119,7 +119,7 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 					<Fragment key={group.date}>
 						<motion.div
 							key={group.date}
-							className="p-8 rounded-xl bg-white w-full"
+							className="rounded-xl w-full"
 							variants={groupVariants}
 						>
 							<motion.h4
@@ -131,7 +131,7 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 								{group.date}
 							</motion.h4>
 
-							<div className="grid w-full grid grid-cols-[repeat(auto-fit,minmax(100%, 1fr))] gap-4">
+							<div className="grid w-full grid grid-cols-[repeat(auto-fit, minmax(300px, 1fr))] gap-4">
 								{group.memories.map((memory) => (
 									<motion.img
 										key={memory.id}
@@ -150,13 +150,14 @@ export default function MemoryGallery({memories}: { memories: Memory[] }) {
 					</Fragment>
 				))}
 			</motion.div>
-			<input
-				type="file"
-				ref={fileInputRef}
-				onChange={handleUpload}
-				accept="image/*"
-				className="hidden"
-			/>
+			<h3 className={"text-center p-4 bg-white rounded-2xl w-full mt-4 text-[#2c9298]"}>Love you more ❤️</h3>
+			{/*<input*/}
+			{/*	type="file"*/}
+			{/*	ref={fileInputRef}*/}
+			{/*	onChange={handleUpload}*/}
+			{/*	accept="image/*"*/}
+			{/*	className="hidden"*/}
+			{/*/>*/}
 
 			{/*/!* Upload button *!/*/}
 			{/*<Button*/}
